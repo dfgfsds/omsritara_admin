@@ -22,6 +22,7 @@ import Banner from './pages/store/Banner';
 import CouponsMain from './pages/store/Coupons';
 import BlogsMain from './pages/store/Blogs';
 import ReviewsMain from './pages/store/Reviews';
+import CourseLead from './pages/store/CourseLead';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
               <Route path="marketing" element={<Marketing />} />
               <Route path="analytics" element={<Analytics />} />
               <Route path="settings" element={<StoreSettings />} />
+              <Route path="courseLead" element={<CourseLead />} />
             </Route>
           </Route>
           <Route path="*" element={<ErrorPage />} />

@@ -1,5 +1,5 @@
 import { NavLink, useParams } from 'react-router-dom';
-import { Settings, Package, ShoppingCart, Users, User, FolderTree, Megaphone, BarChart, Image, Ticket, Library, Star } from 'lucide-react';
+import { Settings, Package, ShoppingCart, Users, User, FolderTree, Megaphone, BarChart, Image, Ticket, Library, Star, Headset } from 'lucide-react';
 
 export default function StoreNav() {
   const { id } = useParams<{ id: string }>();
@@ -13,6 +13,7 @@ export default function StoreNav() {
     // { to: `/store/${id}/marketing`, icon: Megaphone, label: 'Marketing' },
     // { to: `/store/${id}/analytics`, icon: BarChart, label: 'Analytics' },
     { to: `/store/${id}/settings`, icon: Settings, label: 'Settings' },
+    { to: `/store/${id}/courseLead`, icon: Headset, label: 'Course Lead' },
     { to: `/store/${id}/banner`, icon: Image, label: 'Banner' },
     { to: `/store/${id}/coupons`, icon: Ticket, label: 'Coupons' },
     { to: `/store/${id}/blogs`, icon: Library, label: 'Blogs' },

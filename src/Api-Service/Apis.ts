@@ -321,6 +321,16 @@ export const postRefundApi = async (query: any, payload: any) => {
 
 
 
+// GET Course Lead API
+export const getCourseLeadApi = async () => {
+  // const formattedQuery = query.endsWith('') ? query : `${query}`;
+  return axios.get(
+    `${ApiUrls.omsritaraCourseLead}`
+  );
+}
+
+
+
 
 
 
