@@ -31,8 +31,8 @@ const vendorSitePolicies = `${baseUrl}/vendor-site-policies/`;
 const coupons = `${baseUrl}/coupons/`
 const dtdcDelivery = `${baseUrl}/delivery-partner-data-bulk-pricing-data/dtdc/`
 const blog = `${baseUrl}/blog/`;
-const refund=`${baseUrl}/initiate_razorpay_refund/`;
-const omsritaraCourseLead =`https://api.ftdigitalsolutions.in/omsritara/course-lead/fetch`;
+const refund = `${baseUrl}/initiate_razorpay_refund/`;
+const omsritaraCourseLead = `https://api.ftdigitalsolutions.in/omsritara/course-lead/`;
 
 export default {
     multiVendor,
