@@ -1,13 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import { getCourseLeadApi } from "../../Api-Service/Apis";
+import { InvalidateQueryFilters, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteCourseLeadApi, getCourseLeadApi } from "../../Api-Service/Apis";
 import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { Download, Loader2 } from 'lucide-react';
+import { Download, Loader2, Trash2 } from 'lucide-react';
 import Button from '../../components/Button';
 import Search from '../../components/Search';
 import { Pagination } from '../Pagination';
 import EmptyBox from '../../assets/image/empty-box.png';
+import { toast } from "react-toastify";
 
 function CourseLead() {
     const [searchTerm, setSearchTerm] = useState("");
@@ -15,11 +16,41 @@ function CourseLead() {
     const [endDate, setEndDate] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
+    const queryClient = useQueryClient();
+
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [selectedId, setSelectedId] = useState<number | null>(null);
+    const [deleteLoading, setDeleteLoading] = useState(false);
 
     const { data: getCourseLeadData, isLoading }: any = useQuery({
-        queryKey: ['getVendorWithSiteDetailsData'],
+        queryKey: ['getCourseLeadApiData'],
         queryFn: () => getCourseLeadApi()
     });
+
+
+    const handleDelete = async (id: number) => {
+        setDeleteLoading(true);
+
+        try {
+            await deleteCourseLeadApi(`${id}`);
+
+            queryClient.invalidateQueries({
+                queryKey: ["getCourseLeadApiData"],
+            });
+
+            toast.success("Lead deleted successfully");
+
+            setDeleteModal(false);
+            setSelectedId(null);
+        } catch (error: any) {
+            toast.error(
+                error?.response?.data?.error ||
+                "Something went wrong. Please try again!"
+            );
+        } finally {
+            setDeleteLoading(false);
+        }
+    };
 
     const filteredData = getCourseLeadData?.data?.data?.filter((item: any) => {
         const searchMatch =
@@ -147,6 +178,9 @@ function CourseLead() {
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Location</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Course</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
+                                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                                                    Action
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 bg-white">
@@ -182,6 +216,9 @@ function CourseLead() {
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Location</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Course</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
+                                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                                                            Action
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-gray-200 bg-white">
@@ -196,6 +233,17 @@ function CourseLead() {
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.location}</td>
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.course}</td>
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.date}</td>
+                                                            <td className="whitespace-nowrap px-6 py-4">
+                                                                <button
+                                                                    onClick={() => {
+                                                                        setSelectedId(item?.id);
+                                                                        setDeleteModal(true);
+                                                                    }}
+                                                                    className="text-red-600 hover:text-red-800"
+                                                                >
+                                                                    <Trash2 size={18} />
+                                                                </button>
+                                                            </td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
@@ -233,6 +281,47 @@ function CourseLead() {
                     </>
                 )}
             </div>
+
+            {deleteModal && (
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-6 w-[400px]">
+                        <h2 className="text-xl font-semibold">
+                            Delete Lead
+                        </h2>
+
+                        <p className="text-gray-600 mt-2">
+                            Are you sure you want to delete this lead?
+                        </p>
+
+                        <div className="flex justify-end gap-3 mt-6">
+                            <button
+                                onClick={() => {
+                                    setDeleteModal(false);
+                                    setSelectedId(null);
+                                }}
+                                className="px-4 py-2 border rounded"
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                onClick={() => handleDelete(selectedId!)}
+                                disabled={deleteLoading}
+                                className="bg-red-600 text-white px-4 py-2 rounded flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {deleteLoading ? (
+                                    <>
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        <span>Deleting...</span>
+                                    </>
+                                ) : (
+                                    "Delete"
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
