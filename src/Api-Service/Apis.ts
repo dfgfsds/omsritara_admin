@@ -329,6 +329,14 @@ export const getCourseLeadApi = async () => {
   );
 }
 
+// DELETE Course Lead API
+export const deleteCourseLeadApi = async (query: any) => {
+  const formattedQuery = query?.endsWith("/") ? query : `${query}/`;
+
+  return axios.delete(
+    `${ApiUrls.omsritaraCourseLead}${formattedQuery}`
+  );
+};
 
 
 
