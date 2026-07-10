@@ -1,5 +1,5 @@
-export const baseUrl = 'https://ecomapi.ftdigitalsolutions.org';
-// export const baseUrl = 'https://test-ecomapi.justvy.in';
+// export const baseUrl = 'https://ecomapi.ftdigitalsolutions.org';
+export const baseUrl = 'https://test-ecomapi.ftdigitalsolutions.org'; //test API
 // const baseUrl ='http://82.29.161.36'
 
 const multiVendor = `${baseUrl}/create_multivendor_users/`;
@@ -32,6 +32,7 @@ const coupons = `${baseUrl}/coupons/`
 const dtdcDelivery = `${baseUrl}/delivery-partner-data-bulk-pricing-data/dtdc/`
 const blog = `${baseUrl}/blog/`;
 const refund = `${baseUrl}/initiate_razorpay_refund/`;
+const notificationBulk = `${baseUrl}/notification/send/bulk/`;
 const omsritaraCourseLead = `https://api.ftdigitalsolutions.in/omsritara/course-lead/`;
 
 export default {
@@ -63,5 +64,6 @@ export default {
     dtdcDelivery,
     blog,
     refund,
+    notificationBulk,
     omsritaraCourseLead,
 };
