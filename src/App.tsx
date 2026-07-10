@@ -23,6 +23,7 @@ import CouponsMain from './pages/store/Coupons';
 import BlogsMain from './pages/store/Blogs';
 import ReviewsMain from './pages/store/Reviews';
 import CourseLead from './pages/store/CourseLead';
+import Notifications from './pages/store/Notifications';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
               <Route path="blogs" element={<BlogsMain />} />
               <Route path="reviews" element={<ReviewsMain />} />
               <Route path="categories" element={<Categories />} />
+              <Route path="notification" element={<Notifications />} />
               <Route path="orders" element={<Orders />} />
               <Route path="users" element={<Users />} />
               <Route path="website-users" element={<WebsiteUsers />} />

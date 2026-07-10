@@ -321,6 +321,21 @@ export const postRefundApi = async (query: any, payload: any) => {
 
 
 
+// GET BULK NOTIFICATIONS BY VENDOR ID
+export const getVendorNotificationsApi = async (vendorId: any) => {
+  const formattedVendorId = vendorId?.endsWith('/') ? vendorId : `${vendorId}/`;
+  return axios.get(`${ApiUrls.notificationBulk}${formattedVendorId}`);
+};
+
+// POST BULK NOTIFICATION
+export const postVendorNotificationApi = async (payload: FormData) => {
+  return axios.post(`${ApiUrls.notificationBulk}`, payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
 // GET Course Lead API
 export const getCourseLeadApi = async () => {
   // const formattedQuery = query.endsWith('') ? query : `${query}`;
