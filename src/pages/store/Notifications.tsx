@@ -1,13 +1,16 @@
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getVendorNotificationsApi, postVendorNotificationApi } from '../../Api-Service/Apis';
-import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { getAllProductVariantSizeApi, getVendorNotificationsApi, postVendorNotificationApi } from '../../Api-Service/Apis';
+import { useEffect, useState } from 'react';
+import { Plus, X } from 'lucide-react';
+import Button from '../../components/Button';
+import axios from 'axios';
+import { baseUrl } from '../../Api-Service/ApiUrls';
 
-interface Props {}
+interface Props { }
 
 function Notifications(props: Props) {
-    const {} = props;
+    const { } = props;
     const { id } = useParams<{ id: string }>();
     const queryClient = useQueryClient();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +20,30 @@ function Notifications(props: Props) {
         notification_type: '',
         title: '',
         message: '',
+        redirect_type: '',
+        redirect_value: '',
+    });
+    const [categories, setCategories] = useState<any[]>([]);
+    const [productSearchTerm, setProductSearchTerm] = useState('');
+
+    // ✅ Fetch Categories
+    const getCategoriesData = async () => {
+        try {
+            const res = await axios.get(`${baseUrl}/api/main-categories/${id}`);
+            setCategories(res?.data || []);
+        } catch (error: any) {
+            console.log(error?.response?.data?.message || 'Something went wrong!');
+        }
+    };
+
+    useEffect(() => {
+        getCategoriesData();
+    }, []);
+
+    // ✅ Fetch Products using React Query
+    const { data: productData, isLoading: productDataLoading }: any = useQuery({
+        queryKey: ['getAllProductVariantSizeData', id],
+        queryFn: () => getAllProductVariantSizeApi(`?vendor_id=${id}`)
     });
 
     const { data, isLoading, error } = useQuery({
@@ -34,6 +61,8 @@ function Notifications(props: Props) {
                 notification_type: '',
                 title: '',
                 message: '',
+                redirect_type: '',
+                redirect_value: '',
             });
             setSelectedFile(null);
             setIsModalOpen(false);
@@ -63,6 +92,8 @@ function Notifications(props: Props) {
         payload.append('notification_type', form.notification_type);
         payload.append('title', form.title);
         payload.append('message', form.message);
+        payload.append('redirect_type', form.redirect_type);
+        payload.append('redirect_value', form.redirect_value);
 
         if (selectedFile) {
             payload.append('image_url', selectedFile);
@@ -80,14 +111,15 @@ function Notifications(props: Props) {
                         View recent bulk notification history for this store.
                     </p>
                 </div>
-                <button
+                <Button
+                    className='flex'
                     type="button"
                     onClick={() => setIsModalOpen(true)}
-                    className="mt-4 inline-flex items-center rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 sm:mt-0"
+                // className="mt-4 inline-flex items-center rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 sm:mt-0"
                 >
-                    <Plus className="mr-2 h-4 w-4" />
+                    <Plus className="h-4 w-4 mr-2 my-auto" />
                     Add Notification
-                </button>
+                </Button>
             </div>
 
             {isModalOpen && (
@@ -100,20 +132,25 @@ function Notifications(props: Props) {
                                 onClick={() => setIsModalOpen(false)}
                                 className="text-sm text-gray-500 hover:text-gray-700"
                             >
-                                Close
+                                <X className="h-5 w-5" />
                             </button>
                         </div>
 
                         <form onSubmit={handleSubmit} className="mt-4 grid gap-4 md:grid-cols-2">
                             <div>
                                 <label className="mb-1 block text-sm font-medium text-gray-700">Notification Type</label>
-                                <input
+                                <select
                                     value={form.notification_type}
                                     onChange={(e) => setForm({ ...form, notification_type: e.target.value })}
-                                    className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
-                                    placeholder="e.g. promo"
+                                    className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm"
                                     required
-                                />
+                                >
+                                    <option value="">Select notification type</option>
+                                    <option value="ORDER_STATUS">Order Status</option>
+                                    <option value="PROMOTION">Promotion</option>
+                                    <option value="SYSTEM">System</option>
+                                    <option value="REMINDER">Reminder</option>
+                                </select>
                             </div>
                             <div>
                                 <label className="mb-1 block text-sm font-medium text-gray-700">Title</label>
@@ -124,6 +161,79 @@ function Notifications(props: Props) {
                                     placeholder="Enter title"
                                     required
                                 />
+                            </div>
+                            <div>
+                                <label className="mb-1 block text-sm font-medium text-gray-700">Redirect Type</label>
+                                <select
+                                    value={form.redirect_type}
+                                    onChange={(e) => {
+                                        setForm({
+                                            ...form,
+                                            redirect_type: e.target.value,
+                                            redirect_value: '',
+                                        });
+                                    }}
+                                    className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm"
+                                    required
+                                >
+                                    <option value="">Select redirect type</option>
+                                    <option value="CATEGORY">CATEGORY</option>
+                                    <option value="PRODUCT">PRODUCT</option>
+                                </select>
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className="mb-1 block text-sm font-medium text-gray-700">Redirect Value</label>
+                                {form.redirect_type === 'CATEGORY' ? (
+                                    <select
+                                        value={form.redirect_value}
+                                        onChange={(e) => setForm({ ...form, redirect_value: e.target.value })}
+                                        className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm"
+                                        required
+                                    >
+                                        <option value="">Select category</option>
+                                        {categories.map((category) => (
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                ) : form.redirect_type === 'PRODUCT' ? (
+                                    <div className="space-y-2">
+                                        <input
+                                            type="text"
+                                            value={productSearchTerm}
+                                            onChange={(e) => setProductSearchTerm(e.target.value)}
+                                            className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
+                                            placeholder="Search products"
+                                        />
+                                        <select
+                                            value={form.redirect_value}
+                                            onChange={(e) => setForm({ ...form, redirect_value: e.target.value })}
+                                            className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm"
+                                            required
+                                        >
+                                            <option value="">Select product</option>
+                                            {productData?.data
+                                                ?.filter((product: any) =>
+                                                    product?.name?.toLowerCase().includes(productSearchTerm.toLowerCase())
+                                                )
+                                                .map((product: any) => (
+                                                    <option key={product.id} value={product.id}>
+                                                        {product.name}
+                                                    </option>
+                                                ))}
+                                        </select>
+                                    </div>
+                                ) : (
+                                    <input
+                                        value={form.redirect_value}
+                                        onChange={(e) => setForm({ ...form, redirect_value: e.target.value })}
+                                        className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
+                                        placeholder="Select redirect type first"
+                                        disabled
+                                        required
+                                    />
+                                )}
                             </div>
                             <div className="md:col-span-2">
                                 <label className="mb-1 block text-sm font-medium text-gray-700">Message</label>
@@ -146,20 +256,20 @@ function Notifications(props: Props) {
                                 />
                             </div>
                             <div className="md:col-span-2 flex items-center justify-end gap-2">
-                                <button
+                                <Button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
-                                    className="rounded border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                                // className="rounded border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                                 >
                                     Cancel
-                                </button>
-                                <button
+                                </Button>
+                                <Button
                                     type="submit"
                                     disabled={createNotificationMutation.isPending}
-                                    className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+                                // className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
                                 >
                                     {createNotificationMutation.isPending ? 'Sending...' : 'Send Notification'}
-                                </button>
+                                </Button>
                             </div>
                             {createNotificationMutation.isError && (
                                 <div className="md:col-span-2 text-sm text-red-600">
