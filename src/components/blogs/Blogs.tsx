@@ -96,7 +96,7 @@ function Blogs({ userId }: any) {
         ))}
       </div> */}
 
-      <div className="grid md:grid-cols-4 gap-6">
+      <div className="grid md:grid-cols-3 gap-6">
         {blogs?.map((blog: any) => (
           <div
             key={blog.id}
