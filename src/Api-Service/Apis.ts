@@ -329,7 +329,7 @@ export const getVendorNotificationsApi = async (vendorId: any) => {
 
 // POST BULK NOTIFICATION
 export const postVendorNotificationApi = async (payload: FormData) => {
-  return axios.post(`${ApiUrls.notificationBulk}`, payload, {
+  return axios.post(`${ApiUrls.notoficationBulkCreate}`, payload, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
