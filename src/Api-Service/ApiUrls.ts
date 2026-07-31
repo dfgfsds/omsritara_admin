@@ -32,7 +32,8 @@ const coupons = `${baseUrl}/coupons/`
 const dtdcDelivery = `${baseUrl}/delivery-partner-data-bulk-pricing-data/dtdc/`
 const blog = `${baseUrl}/blog/`;
 const refund = `${baseUrl}/initiate_razorpay_refund/`;
-const notificationBulk = `${baseUrl}/notification/send/bulk/`;
+const notificationBulk = `${baseUrl}/notification/fetch/`;
+const notoficationBulkCreate = `${baseUrl}/notification/send/bulk/`;
 const omsritaraCourseLead = `https://api.ftdigitalsolutions.in/omsritara/course-lead/`;
 
 export default {
@@ -66,4 +67,5 @@ export default {
     refund,
     notificationBulk,
     omsritaraCourseLead,
+    notoficationBulkCreate
 };
