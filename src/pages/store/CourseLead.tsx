@@ -176,8 +176,8 @@ function CourseLead() {
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Phone</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Email</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Location</th>
-                                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Course</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
+                                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Course</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
                                                     Action
                                                 </th>
@@ -214,8 +214,8 @@ function CourseLead() {
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Phone</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Email</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Location</th>
-                                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Course</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
+                                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Course</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
                                                             Action
                                                         </th>
@@ -231,8 +231,8 @@ function CourseLead() {
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.phone_no}</td>
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.email}</td>
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.location}</td>
-                                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.course}</td>
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.date}</td>
+                                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.course}</td>
                                                             <td className="whitespace-nowrap px-6 py-4">
                                                                 <button
                                                                     onClick={() => {
