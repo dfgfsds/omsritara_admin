@@ -24,6 +24,7 @@ import BlogsMain from './pages/store/Blogs';
 import ReviewsMain from './pages/store/Reviews';
 import CourseLead from './pages/store/CourseLead';
 import Notifications from './pages/store/Notifications';
+import GemzLead from './pages/store/GemzLead';
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
               <Route path="analytics" element={<Analytics />} />
               <Route path="settings" element={<StoreSettings />} />
               <Route path="courseLead" element={<CourseLead />} />
+              <Route path="gemzLead" element={<GemzLead />} />
             </Route>
           </Route>
           <Route path="*" element={<ErrorPage />} />
