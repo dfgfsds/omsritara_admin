@@ -35,6 +35,7 @@ const refund = `${baseUrl}/initiate_razorpay_refund/`;
 const notificationBulk = `${baseUrl}/notification/fetch/`;
 const notoficationBulkCreate = `${baseUrl}/notification/send/bulk/`;
 const omsritaraCourseLead = `https://api.ftdigitalsolutions.in/omsritara/course-lead/`;
+const omsritaraGemzLead = `https://api.ftdigitalsolutions.in/omsritara/gemz/`;
 
 export default {
     multiVendor,
@@ -67,5 +68,6 @@ export default {
     refund,
     notificationBulk,
     omsritaraCourseLead,
+    omsritaraGemzLead,
     notoficationBulkCreate
 };

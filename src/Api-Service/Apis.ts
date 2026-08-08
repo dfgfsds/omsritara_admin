@@ -353,6 +353,21 @@ export const deleteCourseLeadApi = async (query: any) => {
   );
 };
 
+// GET Gemz Lead API
+export const getGemzLeadApi = async () => {
+  return axios.get(
+    `${ApiUrls.omsritaraGemzLead}`
+  );
+};
+
+// DELETE Gemz Lead API
+export const deleteGemzLeadApi = async (query: any) => {
+  const formattedQuery = query?.endsWith("/") ? query : `${query}/`;
+
+  return axios.delete(
+    `${ApiUrls.omsritaraGemzLead}${formattedQuery}`
+  );
+};
 
 
 

@@ -15,6 +15,7 @@ export default function StoreNav() {
     // { to: `/store/${id}/analytics`, icon: BarChart, label: 'Analytics' },
     { to: `/store/${id}/settings`, icon: Settings, label: 'Settings' },
     { to: `/store/${id}/courseLead`, icon: Headset, label: 'Course Lead' },
+    { to: `/store/${id}/gemzLead`, icon: Headset, label: 'Gemz Lead' },
     { to: `/store/${id}/banner`, icon: Image, label: 'Banner' },
     { to: `/store/${id}/coupons`, icon: Ticket, label: 'Coupons' },
     { to: `/store/${id}/blogs`, icon: Library, label: 'Blogs' },
