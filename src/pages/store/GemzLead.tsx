@@ -121,7 +121,7 @@ function GemzLead() {
                     <div className="sm:flex-auto">
                         <h1 className="text-2xl font-semibold text-gray-900">Gemz Leads</h1>
                         <p className="mt-2 text-sm text-gray-700">
-                            View and manage your leads collected from website Gemz 
+                            View and manage your leads collected from website Gemz
                         </p>
                     </div>
                 </div>
@@ -174,6 +174,9 @@ function GemzLead() {
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Name</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Phone</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Location</th>
+                                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date Of Birth</th>
+                                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Birth Place</th>
+                                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Birth Time</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Message</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
@@ -211,6 +214,9 @@ function GemzLead() {
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Name</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Phone</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Location</th>
+                                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date Of Birth</th>
+                                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Birth Place</th>
+                                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Birth Time</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Message</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
@@ -227,6 +233,9 @@ function GemzLead() {
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.name}</td>
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.phone_no}</td>
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.location}</td>
+                                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.date_of_birth}</td>
+                                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.birth_place}</td>
+                                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.birth_time}</td>
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.message}</td>
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.date}</td>
                                                             <td className="whitespace-nowrap px-6 py-4">
