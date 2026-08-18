@@ -369,6 +369,13 @@ export const deleteGemzLeadApi = async (query: any) => {
   );
 };
 
+// GET Cart With Cart Items API
+export const getCartWithCartItemsApi = async (query: any) => {
+  return axios.get(
+    `${ApiUrls.cartWithCartItems}${query}`
+  );
+};
+
 
 
 

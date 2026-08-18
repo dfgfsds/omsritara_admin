@@ -36,6 +36,7 @@ const notificationBulk = `${baseUrl}/notification/fetch/`;
 const notoficationBulkCreate = `${baseUrl}/notification/send/bulk/`;
 const omsritaraCourseLead = `https://api.ftdigitalsolutions.in/omsritara/course-lead/`;
 const omsritaraGemzLead = `https://api.ftdigitalsolutions.in/omsritara/gemz/`;
+const cartWithCartItems = `${baseUrl}/cart_with_cart_items_product_or_variant_refined/`;
 
 export default {
     multiVendor,
@@ -69,5 +70,6 @@ export default {
     notificationBulk,
     omsritaraCourseLead,
     omsritaraGemzLead,
-    notoficationBulkCreate
+    notoficationBulkCreate,
+    cartWithCartItems
 };
