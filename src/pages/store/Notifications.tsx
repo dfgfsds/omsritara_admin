@@ -339,7 +339,7 @@ function Notifications(props: Props) {
                                             <div className="text-xs text-gray-500">{item.message || '—'}</div>
                                         </td>
                                         <td className="px-4 py-3 text-sm text-gray-600">{item.notification_type || '—'}</td>
-                                        <td className="px-4 py-3 text-sm text-gray-600">{item.total_recipients ?? 0}</td>
+                                        <td className="px-4 py-3 text-sm text-gray-600">{item.active_user_count ?? 0}</td>
                                         <td className="px-4 py-3 text-sm text-gray-600">{item.success_count ?? 0}</td>
                                         <td className="px-4 py-3 text-sm text-gray-600">{item.failed_count ?? 0}</td>
                                         <td className="px-4 py-3 text-sm">

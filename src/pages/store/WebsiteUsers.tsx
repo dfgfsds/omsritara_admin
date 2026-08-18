@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Button from '../../components/Button';
 import Search from '../../components/Search';
 import WebsiteUserModal from '../../components/users/WebsiteUserModal';
+import CartModal from '../../components/users/CartModal';
 import { WebsiteUser } from '../../types/user';
 import { getUserApi } from '../../Api-Service/Apis';
 import { useQuery } from '@tanstack/react-query';
@@ -14,6 +15,7 @@ import { saveAs } from 'file-saver';
 
 export default function WebsiteUsers() {
   const [selectedUser, setSelectedUser] = useState<WebsiteUser | null>(null);
+  const [cartUser, setCartUser] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -105,13 +107,14 @@ export default function WebsiteUsers() {
                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Email</th>
                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Mobile</th>
                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Orders</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Cart</th>
                           <th className="px-6 py-3 text-center text-sm font-semibold text-gray-900">Actions</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200 bg-white">
                         {[...Array(5)].map((_, index) => (
                           <tr key={index}>
-                            {Array.from({ length: 6 }).map((_, idx) => (
+                            {Array.from({ length: 7 }).map((_, idx) => (
                               <td key={idx} className="px-6 py-4">
                                 <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
                               </td>
@@ -142,6 +145,7 @@ export default function WebsiteUsers() {
                             <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Mobile</th>
                             {/* <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th> */}
                             <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Orders</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Cart</th>
                             <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Actions</th>
                           </tr>
                         </thead>
@@ -163,6 +167,11 @@ export default function WebsiteUsers() {
                         </td> */}
                               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                                 {user.total_orders}
+                              </td>
+                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                <Button disabled={user?.cart_item_count === 0} variant="outline" onClick={() => setCartUser(user)}>
+                                  View Cart
+                                </Button>
                               </td>
                               <td className="whitespace-nowrap px-6 py-4 text-right text-sm">
                                 {/* <Button variant="outline" onClick={() => setSelectedUser(user)}> */}
@@ -210,6 +219,14 @@ export default function WebsiteUsers() {
         <WebsiteUserModal
           user={selectedUser}
           onClose={() => setSelectedUser(null)}
+        />
+      )}
+      
+      {cartUser && (
+        <CartModal
+          userId={cartUser.id}
+          vendorId={id}
+          onClose={() => setCartUser(null)}
         />
       )}
     </div>
