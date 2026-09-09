@@ -1,5 +1,5 @@
 import { InvalidateQueryFilters, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteGemzLeadApi, getGemzLeadApi } from "../../Api-Service/Apis";
+import { deleteGemzLeadApi, getGemzLeadApi, updateGemzLeadApi } from "../../Api-Service/Apis";
 import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -52,6 +52,38 @@ function GemzLead() {
         }
     };
 
+    const handleStatusUpdate = async (id: number, currentStatus: string) => {
+        let newStatus = "in process";
+        const status = currentStatus?.toLowerCase() || "new";
+        
+        if (status === "new") newStatus = "in process";
+        else if (status === "in process") newStatus = "closed";
+        else if (status === "closed") newStatus = "completed";
+        else if (status === "completed") newStatus = "new";
+
+        try {
+            await updateGemzLeadApi(`${id}`, { status: newStatus });
+            queryClient.invalidateQueries({
+                queryKey: ["getGemzLeadApiData"],
+            });
+            toast.success("Status updated successfully");
+        } catch (error: any) {
+            toast.error(
+                error?.response?.data?.error || "Failed to update status"
+            );
+        }
+    };
+
+    const getStatusColor = (status: string) => {
+        switch (status?.toLowerCase()) {
+            case "new": return "bg-blue-100 text-blue-800 border-blue-200";
+            case "in process": return "bg-yellow-100 text-yellow-800 border-yellow-200";
+            case "closed": return "bg-gray-100 text-gray-800 border-gray-200";
+            case "completed": return "bg-green-100 text-green-800 border-green-200";
+            default: return "bg-blue-100 text-blue-800 border-blue-200";
+        }
+    }
+
     const filteredData = getGemzLeadData?.data?.data?.filter((item: any) => {
         const searchMatch =
             item?.name?.toLowerCase()?.includes(searchTerm.toLowerCase()) ||
@@ -95,6 +127,7 @@ function GemzLead() {
             Location: item.location,
             Message: item.message,
             Date: item.date,
+            Status: item.status,
         }));
 
         const worksheet = XLSX.utils.json_to_sheet(excelData);
@@ -179,6 +212,7 @@ function GemzLead() {
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Birth Time</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Message</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
+                                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
                                                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
                                                     Action
                                                 </th>
@@ -187,7 +221,7 @@ function GemzLead() {
                                         <tbody className="divide-y divide-gray-200 bg-white">
                                             {[...Array(5)].map((_, index) => (
                                                 <tr key={index}>
-                                                    {Array.from({ length: 7 }).map((_, idx) => (
+                                                    {Array.from({ length: 11 }).map((_, idx) => (
                                                         <td key={idx} className="px-6 py-4">
                                                             <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
                                                         </td>
@@ -219,6 +253,7 @@ function GemzLead() {
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Birth Time</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Message</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
+                                                        <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
                                                         <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
                                                             Action
                                                         </th>
@@ -238,6 +273,14 @@ function GemzLead() {
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.birth_time}</td>
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.message}</td>
                                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{item?.date}</td>
+                                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                                                <button
+                                                                    onClick={() => handleStatusUpdate(item?.id, item?.status)}
+                                                                    className={`px-3 py-1 rounded-full text-xs font-medium border cursor-pointer capitalize ${getStatusColor(item?.status)}`}
+                                                                >
+                                                                    {item?.status || "new"}
+                                                                </button>
+                                                            </td>
                                                             <td className="whitespace-nowrap px-6 py-4">
                                                                 <button
                                                                     onClick={() => {

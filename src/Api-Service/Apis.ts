@@ -353,6 +353,15 @@ export const deleteCourseLeadApi = async (query: any) => {
   );
 };
 
+// UPDATE Course Lead API
+export const updateCourseLeadApi = async (query: any, payload: any) => {
+  const formattedQuery = query?.endsWith("/") ? query : `${query}/`;
+
+  return axios.put(
+    `${ApiUrls.omsritaraCourseLead}${formattedQuery}`, payload
+  );
+};
+
 // GET Gemz Lead API
 export const getGemzLeadApi = async () => {
   return axios.get(
@@ -366,6 +375,15 @@ export const deleteGemzLeadApi = async (query: any) => {
 
   return axios.delete(
     `${ApiUrls.omsritaraGemzLead}${formattedQuery}`
+  );
+};
+
+// UPDATE Gemz Lead API
+export const updateGemzLeadApi = async (query: any, payload: any) => {
+  const formattedQuery = query?.endsWith("/") ? query : `${query}/`;
+
+  return axios.put(
+    `${ApiUrls.omsritaraGemzLead}${formattedQuery}`, payload
   );
 };
 
